@@ -1,0 +1,1449 @@
+/* ==========================================================================
+   TIMELYN — design tokens
+   Names mirror the Figma variable collection (Colors / Typography / Input …)
+   ========================================================================== */
+:root{
+  color-scheme:light;
+
+  /* Colors/* */
+  --color-bg-surface:#f7f5f3;
+  --color-bg-primary:#ffffff;
+  --color-txt-primary:#1b312a;
+  --color-txt-secondary:#577066;
+  --color-txt-neutral:#f7f5f3;
+  --color-label-primary:#000000;
+  --color-icon-default:#577066;
+  --color-icon-neutral:#f7f5f3;
+  --color-input-bg:#f9f8f6;
+  --color-input-border:#dcd8d0;
+  --color-input-border-active:#e87040;
+  --color-button-bg:#e87040;
+  --color-button-bg-hover:#d9622f;
+  --color-button-bg-disabled:#f0b79c;
+  --color-ticks-active:#e87040;
+  --color-ticks-idle:#dcd6cc;
+  --color-overlay:rgba(20,17,14,0.38);
+  --color-blue:#007aff;
+  --color-danger:#d94f4f;
+  --color-glass-bg:rgba(255,255,255,.55);
+  --color-glass-puck:rgba(255,255,255,.6);
+  --color-alert-bg:rgba(249,248,246,.92);
+  --color-hover-tint:rgba(0,0,0,.03);
+
+  /* Project palette (Manage Projects swatches) */
+  --proj-1:#1bab8c;
+  --proj-2:#3d6bf0;
+  --proj-3:#9b59d0;
+  --proj-4:#e0316f;
+  --proj-5:#f0ab1f;
+  --proj-6:#17a2b8;
+  --proj-7:#4caf50;
+
+  /* Typography */
+  --font-heading:'Chakra Petch', sans-serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Layout */
+  --radius-l:20px;
+  --radius-m:14px;
+  --radius-s:10px;
+  --radius-pill:999px;
+  --shadow-sheet:0 -20px 60px rgba(27,49,42,0.18);
+  --shadow-alert:0 20px 50px rgba(27,49,42,0.25);
+  --ease-spring:cubic-bezier(.32,1.35,.5,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+
+  /* ═══ Liquid Glass — see glass.css ═══ */
+  --glass-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 1.8px 3px 0px -2px rgba(255, 255, 255, 0.27),
+    inset -2px -2px 0px -2px rgba(255, 255, 255, 0.24),
+    inset -3px -8px 1px -6px rgba(255, 255, 255, 0.18),
+    inset -0.3px -1px 4px 0px rgba(0, 0, 0, 0.24),
+    inset -1.5px 2.5px 0px -2px rgba(0, 0, 0, 0.4),
+    inset 0px 3px 4px -2px rgba(0, 0, 0, 0.4),
+    inset 2px -6.5px 1px -4px rgba(0, 0, 0, 0.2),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.2),
+    0px 6px 16px 0px rgba(0, 0, 0, 0.16);
+  --glass-shadow-active:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 1px 1px 0 0 rgba(255, 255, 255, 0.15),
+    inset -1px -1px 0 0 rgba(255, 255, 255, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+  --glass-shadow-indicator:
+    inset 0 0 0 1px #ffffff08,
+    inset 2px 1px 0 -1px #ffffff45,
+    inset -1.5px -1px 0 -1px #ffffff3d,
+    inset -2px -6px 1px -5px #ffffff2e,
+    inset -1px 2px 3px -1px #0006,
+    inset 0 -4px 1px -2px #0003,
+    0 3px 6px #00000029;
+}
+
+.glass{box-shadow:var(--glass-shadow);}
+.glass-active{box-shadow:var(--glass-shadow-active);}
+.glass-indicator{box-shadow:var(--glass-shadow-indicator);}
+
+/* ==========================================================================
+   DARK THEME — toggled via ThemeController, persisted in localStorage
+   ========================================================================== */
+html[data-theme="dark"]{
+  color-scheme:dark;
+
+  --color-bg-surface:#18191b;
+  --color-bg-primary:#232427;
+  --color-txt-primary:#f2f1ee;
+  --color-txt-secondary:#98a19c;
+  --color-txt-neutral:#18191b;
+  --color-label-primary:#ffffff;
+  --color-icon-default:#98a19c;
+  --color-icon-neutral:#18191b;
+  --color-input-bg:#1d1e21;
+  --color-input-border:#35373b;
+  --color-input-border-active:#e87040;
+  --color-button-bg:#e87040;
+  --color-button-bg-hover:#f0824f;
+  --color-button-bg-disabled:#5a3a2c;
+  --color-ticks-active:#e87040;
+  --color-ticks-idle:#3a3c40;
+  --color-overlay:rgba(0,0,0,.6);
+  --color-blue:#0a84ff;
+  --color-danger:#ff6b60;
+  --color-glass-bg:rgba(30,31,34,.55);
+  --color-glass-puck:rgba(70,71,75,.65);
+  --color-alert-bg:rgba(35,36,39,.9);
+  --color-hover-tint:rgba(255,255,255,.06);
+  --shadow-sheet:0 -20px 60px rgba(0,0,0,.5);
+  --shadow-alert:0 20px 50px rgba(0,0,0,.55);
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:#2b2b2e;
+  color:var(--color-txt-primary);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ==========================================================================
+   NATIVE SHELL — page is running inside the Expo Go WebView wrapper (see
+   the <head> inline script). Drop the desktop phone-mockup chrome (the
+   dark "stage" backdrop + fixed-size phone bezel/notch) and the app's own
+   fake status bar — the real device already supplies both, so keeping them
+   just adds black letterboxing and a duplicate clock/battery row.
+   ========================================================================== */
+html.is-native-shell body{background:var(--color-bg-surface);}
+html.is-native-shell .stage{
+  min-height:100vh;
+  min-height:100dvh;
+  padding:0;
+  gap:0;
+  background:none;
+}
+html.is-native-shell .stage__hint{display:none;}
+html.is-native-shell .phone{
+  width:100vw;
+  height:100vh;
+  height:100dvh;
+  padding:0;
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+}
+html.is-native-shell .phone__screen{border-radius:0;}
+html.is-native-shell .phone__notch{display:none;}
+html.is-native-shell .status-bar{display:none;}
+/* The WebView now goes edge-to-edge under the real notch/home indicator
+   (see App.js), so reserve that space with real safe-area padding instead
+   of the app's own fake status bar — background stays continuous, nothing
+   sits behind the physical notch or gets covered by the home indicator. */
+html.is-native-shell .splash-screen,
+html.is-native-shell .app-root,
+html.is-native-shell .paywall{
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+/* .toast sits outside .app-root (so it can float above sheets/alerts too),
+   so it doesn't inherit that padding-bottom shift — compensate directly or
+   it'd end up sitting too low relative to the TabBar once that's pushed up. */
+html.is-native-shell .toast{
+  bottom:calc(104px + env(safe-area-inset-bottom));
+}
+
+/* ==========================================================================
+   STAGE — desktop wrapper around the phone, not part of the app itself
+   ========================================================================== */
+.stage{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  padding:40px 16px;
+  background:
+    radial-gradient(circle at 20% 15%, #3a3a3f 0%, transparent 55%),
+    radial-gradient(circle at 85% 90%, #34302f 0%, transparent 50%),
+    #232325;
+}
+.stage__hint{
+  color:#8b8b90;
+  font-size:13px;
+  letter-spacing:.2px;
+}
+
+.phone{
+  position:relative;
+  width:393px;
+  height:852px;
+  border-radius:54px;
+  padding:12px;
+  background:linear-gradient(160deg,#3d3d40,#161618);
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04) inset;
+}
+.phone__screen{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:42px;
+  overflow:hidden;
+  background:var(--color-bg-surface);
+  isolation:isolate;
+  /* No text selection/copy anywhere in the app — this is a touch UI, not a
+     document, and long-press is already claimed by real gestures (chart
+     tooltip, tab-bar drag-to-switch); iOS's own selection/callout menu
+     fighting those looks broken. Inputs opt back in below so typing,
+     cursor placement, and editing still work normally. */
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+.phone__screen input,
+.phone__screen textarea{
+  user-select:text;
+  -webkit-user-select:text;
+  -webkit-touch-callout:default;
+}
+.phone__notch{
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;
+  height:28px;
+  background:#161618;
+  border-radius:16px;
+  z-index:50;
+  pointer-events:none;
+}
+
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ==========================================================================
+   COMPONENT: StatusBar
+   ========================================================================== */
+.status-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 26px 4px;
+  font-size:15px;
+  font-weight:600;
+  color:var(--color-txt-primary);
+  flex-shrink:0;
+}
+.status-bar--on-brand{color:#ffffff;}
+.status-bar__icons{display:flex;align-items:center;gap:6px;}
+
+/* ==========================================================================
+   COMPONENT: SplashScreen / SplashLoader
+   ========================================================================== */
+.splash-screen{
+  background:radial-gradient(120% 90% at 50% 15%, #ed7d4d 0%, #e2703f 55%, #d9622f 100%);
+  z-index:40;
+  transition:opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.splash-screen.is-leaving{
+  opacity:0;
+  transform:scale(1.06);
+  pointer-events:none;
+}
+.splash-loader{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.splash-loader__ring{
+  position:relative;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+}
+.splash-loader__ring .tick{
+  --rot:0deg;
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:2px;
+  height:11px;
+  border-radius:2px;
+  background:rgba(255,255,255,.35);
+  transform-origin:50% 140px;
+  transform:translate(-50%,-140px) rotate(var(--rot));
+  opacity:0;
+  animation:tick-in .5s var(--ease-out) forwards;
+}
+.splash-loader__ring .tick--major{height:16px;background:rgba(255,255,255,.9);}
+@keyframes tick-in{
+  from{opacity:0; transform:translate(-50%,-140px) rotate(var(--rot)) scaleY(.2);}
+  to{opacity:1; transform:translate(-50%,-140px) rotate(var(--rot)) scaleY(1);}
+}
+.splash-loader__ring{animation:ring-rotate 6s linear infinite;}
+@keyframes ring-rotate{to{transform:rotate(360deg);}}
+.splash-loader__word{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:28px;
+  color:#fff;
+  letter-spacing:.3px;
+  opacity:0;
+  animation:word-in .7s var(--ease-out) .35s forwards;
+}
+@keyframes word-in{
+  from{opacity:0; transform:translate(-50%,-50%) scale(.85);}
+  to{opacity:1; transform:translate(-50%,-50%) scale(1);}
+}
+
+/* ==========================================================================
+   Home indicator (shared by every full screen)
+   ========================================================================== */
+.home-indicator{
+  flex-shrink:0;
+  width:134px;
+  height:5px;
+  border-radius:3px;
+  background:currentColor;
+  color:var(--color-txt-primary);
+  opacity:.55;
+  margin:10px auto 8px;
+}
+.splash-screen .home-indicator{color:#fff; opacity:.8;}
+
+/* ==========================================================================
+   COMPONENT: AppRoot / TimerScreen
+   ========================================================================== */
+.app-root{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  opacity:0;
+  animation:app-in .55s var(--ease-out) forwards;
+}
+@keyframes app-in{
+  from{opacity:0; transform:translateY(14px) scale(.98);}
+  to{opacity:1; transform:translateY(0) scale(1);}
+}
+.app-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:6px 24px 4px;
+  flex-shrink:0;
+}
+
+.app-logo{
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:26px;
+  margin:0;
+  color:var(--color-txt-primary);
+}
+
+/* ==========================================================================
+   COMPONENT: Screens — swaps Timer/Dashboard/Settings with a slide+fade.
+   Each screen's transform is set inline by ScreenSwitcher (its offset
+   depends on its position relative to whichever screen is active), CSS
+   only owns the transition curve and the active/inactive state.
+   ========================================================================== */
+.screens{
+  position:relative;
+  flex:1;
+  overflow:hidden;
+}
+.screens > main{
+  position:absolute;
+  inset:0;
+  overflow-y:auto;
+  scrollbar-width:none;
+  padding:6px 24px 96px; /* extra bottom room so content can clear the floating TabBar */
+  opacity:0;
+  z-index:1;
+  pointer-events:none;
+  transition:transform .42s var(--ease-spring), opacity .3s var(--ease-out);
+}
+.screens > main::-webkit-scrollbar{display:none;}
+.screens > main.is-active{
+  opacity:1;
+  z-index:2;
+  pointer-events:auto;
+}
+
+/* ==========================================================================
+   COMPONENT: TabBar — floating bottom Timer/Dashboard switcher.
+   Frosted "liquid glass" material: translucent + blurred backdrop for the
+   scrolling content underneath, plus the glass.css inset-shadow tokens for
+   the glossy highlight/depth on top.
+   ========================================================================== */
+.tab-bar{
+  position:absolute;
+  left:50%;
+  bottom:26px;
+  transform:translateX(-50%);
+  z-index:55;
+  display:flex;
+  gap:2px;
+  padding:6px;
+  background:var(--color-glass-bg);
+  backdrop-filter:blur(26px) saturate(180%);
+  -webkit-backdrop-filter:blur(26px) saturate(180%);
+  border-radius:var(--radius-pill);
+  touch-action:none; /* the press-and-drag gesture owns touch here, not page scroll */
+  transition:transform .2s var(--ease-spring), background .3s var(--ease-out);
+}
+.tab-bar.is-dragging{transform:translateX(-50%) scale(1.05);}
+.tab-bar__indicator{
+  position:absolute;
+  top:6px; left:6px;
+  width:84px; height:56px;
+  background:var(--color-glass-puck);
+  border-radius:var(--radius-pill);
+  transition:transform .38s var(--ease-spring), background .3s var(--ease-out);
+}
+.tab-bar__btn{
+  position:relative;
+  z-index:1;
+  width:84px; height:56px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px;
+  background:none; border:none; cursor:pointer;
+  color:var(--color-txt-secondary);
+  transition:color .25s var(--ease-out), transform .15s var(--ease-spring);
+}
+.tab-bar__btn span{font-size:10px; font-weight:600; letter-spacing:.2px;}
+.tab-bar__btn.is-active{color:var(--color-button-bg);}
+.tab-bar__btn:not(.is-active):hover{color:var(--color-txt-primary);}
+.tab-bar__btn:active{transform:scale(.92);}
+
+/* ==========================================================================
+   COMPONENT: SettingsScreen
+   ========================================================================== */
+.settings-section{margin-bottom:22px;}
+.settings-section__title{
+  font-size:11px; font-weight:600; margin:0 0 10px;
+  color:var(--color-txt-secondary);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.settings-row{
+  display:flex; align-items:center; gap:12px;
+  background:var(--color-bg-primary);
+  border:1px solid var(--color-input-border);
+  border-radius:var(--radius-m);
+  padding:12px 14px;
+  transition:background .3s var(--ease-out), border-color .3s var(--ease-out);
+}
+.settings-row__icon{
+  display:flex; align-items:center; justify-content:center;
+  width:32px; height:32px; flex-shrink:0;
+  border-radius:var(--radius-s);
+  background:var(--color-input-bg);
+  color:var(--color-button-bg);
+}
+.settings-row__icon--pro{background:var(--color-button-bg); color:#fff;}
+.settings-row__text{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;}
+.settings-row__label{font-size:14px; font-weight:500; color:var(--color-txt-primary);}
+.settings-row__hint{font-size:11.5px; color:var(--color-txt-secondary); line-height:1.3;}
+.settings-row--link{
+  width:100%;
+  border:none;
+  cursor:pointer;
+  text-align:left;
+  font-family:var(--font-body);
+}
+.settings-row--link:hover{background:var(--color-input-bg);}
+.settings-row--link:active{transform:scale(.99);}
+.chevron--right{flex-shrink:0; color:var(--color-txt-secondary);}
+
+/* COMPONENT: Switch — iOS-style toggle, used for Dark Mode */
+.switch{
+  position:relative;
+  flex-shrink:0;
+  width:46px; height:27px;
+  padding:2px;
+  border:none;
+  border-radius:var(--radius-pill);
+  background:var(--color-input-border);
+  cursor:pointer;
+  transition:background .25s var(--ease-out);
+}
+.switch__knob{
+  display:block;
+  width:23px; height:23px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 5px rgba(0,0,0,.25);
+  transform:translateX(0);
+  transition:transform .28s var(--ease-spring);
+}
+.switch.is-on{background:var(--color-button-bg);}
+.switch.is-on .switch__knob{transform:translateX(19px);}
+
+/* ==========================================================================
+   COMPONENT: TimerDial
+   ========================================================================== */
+.timer-dial{
+  position:relative;
+  width:280px;
+  height:280px;
+  margin:4px auto 26px;
+}
+.timer-dial__ticks{position:absolute; inset:0;}
+.timer-dial__ticks .tick{
+  position:absolute;
+  top:50%; left:50%;
+  width:2px; height:9px;
+  border-radius:2px;
+  background:var(--color-ticks-idle);
+  transform-origin:50% 140px;
+  transition:background .35s var(--ease-out), box-shadow .35s;
+}
+.timer-dial__ticks .tick.is-major{height:15px;}
+.timer-dial__ticks .tick.is-active{
+  background:var(--color-ticks-active);
+  box-shadow:0 0 6px rgba(232,112,64,.55);
+}
+.timer-dial__center{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:6px;
+  text-align:center;
+}
+.timer-dial__label{
+  font-size:13px;
+  color:var(--color-txt-secondary);
+  letter-spacing:.4px;
+  text-transform:capitalize;
+  transition:color .25s;
+}
+.timer-dial__time{
+  display:inline-flex;
+  align-items:center;
+  font-family:var(--font-body);
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  font-size:38px;
+  letter-spacing:.5px;
+  color:var(--color-txt-primary);
+}
+.timer-sep{opacity:.45; padding:0 1px;}
+
+/* Each digit is its own little viewport — the outgoing digit blurs/slides
+   up and out while the incoming one blurs/slides up and in, à la the
+   "Blur Animated Timer" Framer component. Tabular-nums (above) keeps every
+   digit the same width, so 1ch is a safe fixed slot size. */
+.timer-digit-slot{
+  position:relative;
+  display:inline-block;
+  width:1ch;
+  height:1.1em;
+  overflow:hidden;
+}
+.timer-digit{
+  position:absolute;
+  left:0; right:0; top:50%;
+  transform:translateY(-50%);
+  text-align:center;
+}
+.timer-digit.is-entering{animation:digit-enter .5s var(--ease-spring) both;}
+.timer-digit.is-leaving{animation:digit-leave .32s var(--ease-out) both; pointer-events:none;}
+@keyframes digit-enter{
+  from{transform:translateY(calc(-50% + 9px)); filter:blur(6px); opacity:0;}
+  to{transform:translateY(-50%); filter:blur(0); opacity:1;}
+}
+@keyframes digit-leave{
+  from{transform:translateY(-50%); filter:blur(0); opacity:1;}
+  to{transform:translateY(calc(-50% - 9px)); filter:blur(6px); opacity:0;}
+}
+.timer-dial.is-running .timer-dial__center{animation:dial-breathe 2.4s ease-in-out infinite;}
+@keyframes dial-breathe{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(232,112,64,0));}
+  50%{filter:drop-shadow(0 0 10px rgba(232,112,64,.18));}
+}
+
+/* ==========================================================================
+   COMPONENT: Field (text input / select-style button)
+   ========================================================================== */
+.field-label{
+  display:block;
+  font-size:12px;
+  color:var(--color-txt-secondary);
+  margin:14px 0 6px;
+}
+.field{
+  width:100%;
+  background:var(--color-input-bg);
+  border:1.5px solid var(--color-input-border);
+  border-radius:var(--radius-m);
+  padding:13px 16px;
+  margin-bottom:12px;
+  transition:border-color .2s var(--ease-out), box-shadow .2s;
+}
+.field--inline{margin-bottom:0;}
+input.field, .field input{
+  border:none; background:none; outline:none;
+  font-family:var(--font-body);
+  font-size:15px;
+  color:var(--color-txt-primary);
+  width:100%;
+  padding:0;
+}
+input[type="text"].field, input[type="date"].field{padding:13px 16px;}
+.field:has(input:focus){
+  border-color:var(--color-input-border-active);
+  box-shadow:0 0 0 3px rgba(232,112,64,.12);
+}
+.field--select{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  cursor:pointer;
+  text-align:left;
+  font-family:var(--font-body);
+  color:var(--color-txt-primary);
+}
+.field__stack{display:flex; flex-direction:column; gap:4px;}
+.field__label{font-size:11px; color:var(--color-txt-secondary);}
+.field__value{display:flex; align-items:center; gap:8px; font-size:15px;}
+.chevron{color:var(--color-icon-default); flex-shrink:0; transition:transform .25s var(--ease-out);}
+.field--select[aria-expanded="true"] .chevron{transform:rotate(180deg);}
+
+.project-dot{
+  width:10px; height:10px; border-radius:50%;
+  background:var(--proj-2); flex-shrink:0;
+}
+
+/* ==========================================================================
+   COMPONENT: Buttons
+   ========================================================================== */
+.btn{
+  border:none; cursor:pointer;
+  border-radius:var(--radius-pill);
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:15px;
+  padding:15px 20px;
+  transition:transform .15s var(--ease-spring), background .2s, opacity .2s, box-shadow .2s;
+}
+.btn:active{transform:scale(.96);}
+.btn--block{width:100%;}
+.btn--primary{
+  background:var(--color-button-bg);
+  color:#fff;
+  box-shadow:0 10px 20px -8px rgba(232,112,64,.55);
+}
+.btn--primary:hover{background:var(--color-button-bg-hover);}
+.btn--primary:disabled{
+  background:var(--color-button-bg-disabled);
+  box-shadow:none;
+  cursor:not-allowed;
+  transform:none;
+}
+.btn--secondary{
+  background:transparent;
+  color:var(--color-txt-primary);
+  border:1.5px solid var(--color-input-border);
+}
+.btn--danger-text{
+  background:none;
+  color:var(--color-danger);
+  font-weight:500;
+  padding-top:10px;
+}
+
+.timer-actions{
+  display:flex;
+  gap:10px;
+  margin-bottom:22px;
+}
+.timer-actions .btn{flex:1;}
+
+.link-btn{
+  display:flex; align-items:center; gap:6px;
+  background:var(--color-input-bg);
+  border:1.5px solid var(--color-input-border);
+  border-radius:var(--radius-pill);
+  cursor:pointer;
+  color:var(--color-txt-primary);
+  font-family:var(--font-body);
+  font-size:12.5px; font-weight:600;
+  padding:7px 13px 7px 10px;
+  transition:background .2s var(--ease-out), border-color .2s var(--ease-out), transform .15s var(--ease-spring);
+}
+.link-btn svg{color:var(--color-button-bg); flex-shrink:0;}
+.link-btn:hover{background:var(--color-input-border);}
+.link-btn:active{transform:scale(.94);}
+
+.icon-btn{
+  display:flex; align-items:center; justify-content:center;
+  width:34px; height:34px;
+  border-radius:50%;
+  border:none;
+  background:var(--color-input-bg);
+  color:var(--color-txt-secondary);
+  cursor:pointer;
+  flex-shrink:0;
+  transition:background .2s, transform .15s var(--ease-spring), color .2s;
+}
+.icon-btn:hover{background:var(--color-input-border);}
+.icon-btn:active{transform:scale(.9);}
+.icon-btn--primary{background:var(--color-button-bg); color:#fff;}
+.icon-btn--primary:hover{background:var(--color-button-bg-hover);}
+.icon-btn.icon-pop svg{animation:icon-pop .25s var(--ease-spring);}
+@keyframes icon-pop{
+  from{transform:scale(.4); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+/* ==========================================================================
+   COMPONENT: ActivityChart — DashboardScreen summary card. Filters by
+   Week / Month / Year via PeriodSwitch; a grouped bar chart shows time
+   tracked per project per bucket (day/week/month depending on period).
+   ========================================================================== */
+.activity-card{
+  position:relative;
+  background:var(--color-bg-primary);
+  border:1px solid var(--color-input-border);
+  border-radius:var(--radius-l);
+  padding:18px;
+  margin:8px 0 22px;
+}
+.activity-card__header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:18px;
+}
+.activity-card__stat{display:flex; flex-direction:column; gap:4px;}
+.activity-card__stat-label{
+  font-size:11px; font-weight:600;
+  color:var(--color-txt-secondary);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.activity-card__stat-value{
+  font-size:22px; font-weight:700;
+  color:var(--color-txt-primary);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.2px;
+}
+
+/* ==========================================================================
+   COMPONENT: PeriodSwitch — W / M / Y segmented control
+   ========================================================================== */
+.period-switch{
+  position:relative;
+  display:flex;
+  gap:2px;
+  background:var(--color-input-bg);
+  border:1px solid var(--color-input-border);
+  border-radius:var(--radius-pill);
+  padding:3px;
+  flex-shrink:0;
+}
+.period-switch__thumb{
+  position:absolute;
+  top:3px; left:3px;
+  width:26px; height:24px;
+  background:var(--color-button-bg);
+  border-radius:var(--radius-pill);
+  transition:transform .3s var(--ease-spring);
+}
+.period-switch__btn{
+  position:relative; z-index:1;
+  width:26px; height:24px;
+  display:flex; align-items:center; justify-content:center;
+  background:none; border:none; cursor:pointer;
+  font-family:var(--font-body);
+  font-size:12px; font-weight:700;
+  color:var(--color-txt-secondary);
+  transition:color .25s var(--ease-out);
+}
+.period-switch__btn.is-active{color:#fff;}
+.period-switch__btn:not(.is-active):hover{color:var(--color-txt-primary);}
+
+/* ==========================================================================
+   COMPONENT: BarChart — grouped bars (one per project) per time bucket
+   (day for Week, ~weekly chunks for Month, month for Year).
+   ========================================================================== */
+.bar-chart{display:flex; align-items:stretch; gap:6px;}
+
+/* Fixed (non-scrolling) hour labels alongside the plot — Y position of
+   each is set inline as `bottom:X%`, sharing the plot's 0..140px scale. */
+.bar-chart__yaxis{
+  position:relative;
+  width:26px;
+  height:140px;
+  flex-shrink:0;
+}
+.bar-chart__yaxis-label{
+  position:absolute;
+  right:0;
+  transform:translateY(50%);
+  font-size:9px;
+  font-weight:500;
+  color:var(--color-txt-secondary);
+  white-space:nowrap;
+}
+
+.bar-chart__scroll{overflow-x:auto; scrollbar-width:none; flex:1; min-width:0;}
+.bar-chart__scroll::-webkit-scrollbar{display:none;}
+.bar-chart__plot{
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  height:140px;
+  width:max-content;
+  min-width:100%;
+  padding:0 2px;
+  border-bottom:1px solid var(--color-input-border);
+}
+/* Horizontal gridlines matching the Y-axis hour marks. Positioned inside
+   .bar-chart__plot (not a fixed-width sibling) so they stretch across the
+   full scrollable content instead of just the visible viewport. */
+.bar-chart__gridlines{position:absolute; inset:0; pointer-events:none;}
+.bar-chart__gridline{
+  position:absolute;
+  left:0; right:0;
+  height:1px;
+  background:var(--color-input-border);
+  opacity:.6;
+}
+.bar-chart__group{
+  position:relative;
+  z-index:1; /* keep bars above the gridlines */
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:7px;
+  height:100%;
+  flex-shrink:0;
+}
+.bar-chart__bar{
+  width:18px;
+  min-height:2px;
+  border-radius:4px 4px 0 0;
+  transform:scaleY(0);
+  transform-origin:bottom;
+  animation:bar-grow-y .4s var(--ease-out) forwards;
+  cursor:pointer;
+  transition:opacity .15s var(--ease-out);
+}
+.bar-chart__bar.is-active{opacity:.72;}
+/* :hover only for real pointing devices — on touch, WebKit can leave an
+   element "stuck" in :hover after the finger lifts, since there's no true
+   hover state to clear it. .is-active (set/cleared explicitly in JS) is
+   what drives the same feedback on touch. */
+@media (hover:hover) and (pointer:fine){
+  .bar-chart__bar:hover{opacity:.72;}
+}
+@keyframes bar-grow-y{to{transform:scaleY(1);}}
+
+.bar-chart__axis{
+  display:flex;
+  gap:10px;
+  width:max-content;
+  min-width:100%;
+  margin-top:8px;
+}
+.bar-chart__axis-label{
+  flex-shrink:0;
+  text-align:center;
+  font-size:10px;
+  font-weight:500;
+  color:var(--color-txt-secondary);
+}
+
+.bar-chart__legend{
+  display:flex; flex-wrap:wrap;
+  gap:8px 16px;
+  margin-top:16px;
+}
+.bar-chart__legend-item{
+  display:flex; align-items:center; gap:6px;
+  font-size:12px; font-weight:500;
+  color:var(--color-txt-secondary);
+}
+.bar-chart__legend-dot{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+
+/* ==========================================================================
+   COMPONENT: ChartTooltip — shown on press-and-hold (or hover) over a bar
+   ========================================================================== */
+.chart-tooltip{
+  position:absolute;
+  z-index:20;
+  display:flex; align-items:center; gap:6px;
+  background:rgba(26,27,29,.94);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  padding:7px 10px;
+  border-radius:10px;
+  white-space:nowrap;
+  pointer-events:none;
+  transform:translate(-50%, -100%);
+  opacity:0;
+  transition:opacity .12s var(--ease-out);
+}
+.chart-tooltip.is-visible{opacity:1;}
+.chart-tooltip__dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+.chart-tooltip__name{font-size:12px; font-weight:600; color:#fff;}
+.chart-tooltip__value{font-size:12px; color:rgba(255,255,255,.72); font-variant-numeric:tabular-nums;}
+
+/* ==========================================================================
+   COMPONENT: TimeEntriesSection / EntryItem
+   ========================================================================== */
+.entries-header{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:12px;
+}
+.entries-header h2{
+  font-size:12px; margin:0; font-weight:600;
+  color:var(--color-txt-secondary);
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.entries-summary-row{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:11px; color:var(--color-txt-secondary);
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  padding:8px 0 12px;
+}
+.entries-summary-row span:last-child{
+  font-weight:700; color:var(--color-txt-primary); font-size:15px;
+  font-variant-numeric:tabular-nums;
+  text-transform:none;
+  letter-spacing:normal;
+}
+.entries-summary-row--muted{
+  background:var(--color-input-bg);
+  border-radius:var(--radius-s);
+  padding:10px 14px;
+  margin:6px 0 24px;
+}
+.entries-summary-row--muted span:last-child{font-size:14px;}
+
+.day-group{margin-bottom:20px;}
+.day-group__header{
+  display:flex; justify-content:space-between;
+  font-size:11px; color:var(--color-txt-secondary);
+  margin-bottom:10px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+.day-group__header span:last-child{font-variant-numeric:tabular-nums;}
+
+.entry-item{
+  display:flex; align-items:center; gap:12px;
+  background:var(--color-bg-primary);
+  border:1px solid var(--color-input-border);
+  border-radius:var(--radius-m);
+  padding:12px 14px;
+  margin-bottom:8px;
+  animation:entry-in .35s var(--ease-out) both;
+}
+.entry-item.is-removing{
+  animation:entry-out .28s var(--ease-out) forwards;
+}
+@keyframes entry-in{
+  from{opacity:0; transform:translateY(8px) scale(.98);}
+  to{opacity:1; transform:translateY(0) scale(1);}
+}
+@keyframes entry-out{
+  to{opacity:0; transform:translateX(24px) scale(.9); margin-bottom:-56px; padding-top:0; padding-bottom:0; height:0;}
+}
+.entry-item__dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+.entry-item__main{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+.entry-item__title{font-size:14px; font-weight:500; color:var(--color-txt-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.entry-item__meta{font-size:12px; color:var(--color-txt-secondary);}
+.entry-item__duration{font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; color:var(--color-txt-primary); flex-shrink:0;}
+.entry-item__actions{display:flex; gap:4px; flex-shrink:0;}
+.entry-item__actions button{
+  width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+  background:none; border:none; cursor:pointer; color:var(--color-icon-default);
+  border-radius:9px;
+  transition:background .2s, color .2s;
+}
+.entry-item__actions button:hover{background:var(--color-input-bg); color:var(--color-txt-primary);}
+.entry-item__actions button.delete:hover{color:var(--color-danger);}
+
+.entries-empty{
+  text-align:center;
+  color:var(--color-txt-secondary);
+  font-size:13px;
+  padding:18px 0;
+}
+
+/* ==========================================================================
+   COMPONENT: OverlayBackdrop
+   ========================================================================== */
+.overlay-backdrop{
+  position:absolute; inset:0;
+  background:var(--color-overlay);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  z-index:60;
+  opacity:0;
+  transition:opacity .25s var(--ease-out);
+}
+.overlay-backdrop.is-visible{opacity:1;}
+
+/* ==========================================================================
+   COMPONENT: Toast — transient bottom notice, floats above the TabBar.
+   Dark glass capsule (matches the TabBar's liquid-glass material but dark,
+   so it stays legible over either app theme) with an optional accent action.
+   ========================================================================== */
+.toast{
+  position:absolute;
+  left:50%;
+  bottom:104px; /* clears the floating glass TabBar (26px + 68px tall) */
+  transform:translate(-50%, 10px);
+  z-index:90;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  max-width:325px;
+  padding:13px 16px;
+  background:rgba(26,27,29,.92);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-radius:var(--radius-pill);
+  overflow:hidden; /* clips the progress bar to the pill's rounded bottom edge */
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s var(--ease-out), transform .35s var(--ease-spring);
+}
+.toast.is-open{
+  opacity:1;
+  transform:translate(-50%, 0);
+  pointer-events:auto;
+}
+.toast__message{
+  flex:1;
+  min-width:0;
+  font-size:13.5px;
+  font-weight:500;
+  color:#fff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.toast__action{
+  flex-shrink:0;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-family:var(--font-body);
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--color-button-bg);
+  padding:2px;
+  transition:opacity .2s, transform .15s var(--ease-spring);
+}
+.toast__action:hover{opacity:.8;}
+.toast__action:active{transform:scale(.92);}
+.toast__progress{
+  display:block; /* transform has no effect on inline-level boxes otherwise */
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:3px;
+  background:var(--color-button-bg);
+  transform:scaleX(1);
+  transform-origin:left;
+}
+
+/* ==========================================================================
+   COMPONENT: ClockOutAlert (iOS-style centered alert)
+   ========================================================================== */
+.alert{
+  position:absolute;
+  left:50%; top:44%;
+  width:270px;
+  transform:translate(-50%,-50%) scale(.85);
+  background:var(--color-alert-bg);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-radius:var(--radius-l);
+  box-shadow:var(--shadow-alert);
+  z-index:80;
+  text-align:center;
+  padding:20px 18px 0;
+  opacity:0;
+  filter:blur(0);
+  transition:opacity .22s var(--ease-out), transform .28s var(--ease-spring), filter .3s var(--ease-out), background .3s var(--ease-out);
+}
+.alert.is-open{opacity:1; transform:translate(-50%,-50%) scale(1);}
+/* Another overlay opened on top of this one — recede instead of vanishing,
+   so the backdrop's blur reads as continuous through the whole stack. */
+.alert.is-behind{filter:blur(6px) brightness(.94); pointer-events:none;}
+.alert__title{font-family:var(--font-heading); font-size:17px; margin:0 0 6px; font-weight:600;}
+.alert__body{font-size:13px; color:var(--color-txt-secondary); margin:0 0 16px; line-height:1.4;}
+.alert__actions{
+  display:flex;
+  border-top:1px solid var(--color-input-border);
+}
+.alert__btn{
+  flex:1; background:none; border:none; cursor:pointer;
+  padding:13px 0; font-size:15px; color:var(--color-blue);
+  font-family:var(--font-body);
+  transition:background .2s;
+}
+.alert__btn:first-child{border-right:1px solid var(--color-input-border);}
+.alert__btn--primary{font-weight:600;}
+.alert__btn:hover{background:var(--color-hover-tint);}
+
+/* ==========================================================================
+   COMPONENT: Paywall — full-screen subscription upsell (3 plans + trial)
+   ========================================================================== */
+.paywall{
+  /* A conversion screen earns its own accent — a punchier, wider-range
+     orange (gold → red-orange) than the flat brand orange used elsewhere,
+     so it still feels like a distinct, exciting moment while staying in
+     the same colour family as the rest of the app. */
+  --paywall-accent:#f97316;
+  --paywall-accent-2:#ffb020;
+  --paywall-accent-hover:#df5f10;
+  --paywall-accent-soft:rgba(249,115,22,.08);
+  position:absolute;
+  inset:0;
+  z-index:95;
+  background:var(--color-bg-surface);
+  opacity:0;
+  transform:translateY(24px) scale(.98);
+  pointer-events:none;
+  transition:opacity .32s var(--ease-out), transform .38s var(--ease-spring);
+}
+.paywall.is-open{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+.paywall__scroll{
+  height:100%;
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.paywall__scroll::-webkit-scrollbar{display:none;}
+
+.paywall__hero{
+  position:relative;
+  padding:64px 28px 40px;
+  text-align:center;
+  background:linear-gradient(135deg, #ffb020 0%, #f97316 55%, #d9440f 100%);
+  color:#fff;
+}
+.paywall__close{
+  position:absolute;
+  top:20px; right:20px;
+  width:30px; height:30px;
+  border-radius:50%;
+  border:none;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:background .2s, transform .15s var(--ease-spring);
+}
+.paywall__close:hover{background:rgba(255,255,255,.28);}
+.paywall__close:active{transform:scale(.9);}
+.paywall__badge{
+  width:64px; height:64px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.35);
+  display:flex; align-items:center; justify-content:center;
+}
+.paywall__title{
+  font-family:var(--font-heading);
+  font-size:28px; font-weight:600;
+  margin:0 0 8px;
+}
+.paywall__subtitle{
+  font-size:14.5px;
+  margin:0;
+  color:rgba(255,255,255,.88);
+}
+
+.paywall__body{padding:28px 24px 40px;}
+
+.paywall__features{
+  list-style:none;
+  margin:0 0 22px;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+.paywall__features li{
+  display:flex; align-items:center; gap:10px;
+  font-size:14px;
+  color:var(--color-txt-primary);
+}
+.paywall__features svg{
+  flex-shrink:0;
+  color:var(--paywall-accent);
+  background:var(--paywall-accent-soft);
+  border-radius:50%;
+  padding:4px;
+  box-sizing:content-box;
+}
+
+.paywall__trial-row{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  background:var(--color-bg-primary);
+  border:1px solid var(--color-input-border);
+  border-radius:var(--radius-m);
+  padding:12px 14px;
+  margin-bottom:16px;
+}
+
+.paywall__plans{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:0 0 20px;
+}
+
+.paywall__cta{
+  margin-bottom:12px;
+  background:linear-gradient(120deg, var(--paywall-accent), var(--paywall-accent-2));
+  box-shadow:0 10px 22px -8px rgba(139,92,246,.55);
+}
+.paywall__cta:hover{background:linear-gradient(120deg, var(--paywall-accent-hover), var(--paywall-accent-2));}
+
+/* Free-trial switch reuses the shared .switch component, but its "on"
+   colour should match the paywall accent, not the app's global orange. */
+.paywall .switch.is-on{background:var(--paywall-accent);}
+.paywall__fineprint{
+  font-size:12px;
+  color:var(--color-txt-secondary);
+  text-align:center;
+  margin:0 0 18px;
+  line-height:1.4;
+}
+.paywall__links{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-size:12px;
+  color:var(--color-txt-secondary);
+}
+.paywall__links button{
+  background:none; border:none; cursor:pointer;
+  font-family:var(--font-body);
+  font-size:12px;
+  color:var(--color-txt-secondary);
+  text-decoration:underline;
+  padding:4px;
+}
+.paywall__links button:hover{color:var(--color-txt-primary);}
+.paywall__links span{color:var(--color-input-border);}
+
+/* Plan cards — Week / Month / Year, built by JS */
+.plan-card{
+  position:relative;
+  display:flex; align-items:center; gap:12px;
+  width:100%;
+  background:var(--color-bg-primary);
+  border:1.5px solid var(--color-input-border);
+  border-radius:var(--radius-m);
+  padding:14px 16px;
+  cursor:pointer;
+  text-align:left;
+  font-family:var(--font-body);
+  transition:border-color .2s var(--ease-out), background .2s var(--ease-out), transform .15s var(--ease-spring);
+}
+.plan-card:active{transform:scale(.98);}
+.plan-card.is-selected{
+  border-color:var(--paywall-accent);
+  background:var(--paywall-accent-soft);
+}
+.plan-card__radio{
+  position:relative;
+  width:20px; height:20px; flex-shrink:0;
+  border-radius:50%;
+  border:1.5px solid var(--color-input-border);
+  transition:border-color .2s, background .2s;
+}
+.plan-card.is-selected .plan-card__radio{
+  border-color:var(--paywall-accent);
+  background:linear-gradient(135deg, var(--paywall-accent), var(--paywall-accent-2));
+}
+.plan-card.is-selected .plan-card__radio::after{
+  content:'';
+  position:absolute; inset:5px;
+  border-radius:50%;
+  background:#fff;
+}
+.plan-card__info{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;}
+.plan-card__name{font-size:15px; font-weight:600; color:var(--color-txt-primary);}
+.plan-card__sub{font-size:12px; color:var(--color-txt-secondary);}
+.plan-card__price{text-align:right; flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:2px;}
+.plan-card__amount{font-size:16px; font-weight:700; color:var(--color-txt-primary); font-variant-numeric:tabular-nums;}
+.plan-card__period{font-size:11.5px; color:var(--color-txt-secondary);}
+.plan-card__badge{
+  position:absolute;
+  top:-9px; right:14px;
+  background:linear-gradient(120deg, var(--paywall-accent), var(--paywall-accent-2));
+  color:#fff;
+  font-size:9.5px; font-weight:700;
+  letter-spacing:.4px;
+  padding:3px 8px;
+  border-radius:var(--radius-pill);
+  text-transform:uppercase;
+}
+
+/* ==========================================================================
+   COMPONENT: Sheet (bottom sheet) — ManageProjectsSheet / TimeEntrySheet
+   ========================================================================== */
+.sheet{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  max-height:88%;
+  display:flex;
+  flex-direction:column;
+  background:var(--color-bg-surface);
+  border-radius:26px 26px 0 0;
+  box-shadow:var(--shadow-sheet);
+  z-index:70;
+  transform:translateY(100%);
+  filter:blur(0);
+  transition:transform .38s var(--ease-spring), filter .3s var(--ease-out);
+  overflow:hidden;
+}
+/* Another sheet opened on top of this one — recede instead of looking
+   untouched, so the backdrop's blur reads as continuous through the stack. */
+.sheet.is-behind{filter:blur(6px) brightness(.94); pointer-events:none;}
+.sheet.is-open{transform:translateY(0);}
+/* Manage Projects opens to at least half the screen right away, so reaching
+   the color swatches / name field / project list doesn't need a stretch. */
+#projects-sheet{min-height:50%;}
+.sheet__handle{
+  width:36px; height:4px; border-radius:2px;
+  background:var(--color-input-border);
+  margin:10px auto 0;
+  flex-shrink:0;
+}
+.sheet__header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 22px 6px;
+  flex-shrink:0;
+}
+.sheet__header h2{
+  font-family:var(--font-heading);
+  font-size:19px;
+  font-weight:600;
+  margin:0;
+}
+.sheet__body{
+  padding:12px 22px 26px;
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.sheet__body::-webkit-scrollbar{display:none;}
+
+/* ==========================================================================
+   COMPONENT: ColorSwatchPicker
+   ========================================================================== */
+.swatch-row{display:flex; gap:12px; padding:6px 0 18px; flex-wrap:wrap;}
+.swatch{
+  width:28px; height:28px; border-radius:50%;
+  border:2px solid transparent;
+  cursor:pointer;
+  position:relative;
+  transition:transform .15s var(--ease-spring);
+}
+.swatch::after{
+  content:"";
+  position:absolute; inset:-5px;
+  border-radius:50%;
+  border:2px solid transparent;
+  transition:border-color .2s;
+}
+.swatch.is-selected::after{border-color:currentColor;}
+.swatch:hover{transform:scale(1.08);}
+.swatch:active{transform:scale(.92);}
+
+.new-project-row{display:flex; gap:10px; align-items:center; margin-bottom:18px;}
+.new-project-row .field{margin-bottom:0;}
+
+.project-list{display:flex; flex-direction:column; gap:8px;}
+.project-item{
+  display:flex; align-items:center; gap:10px;
+  background:var(--color-input-bg);
+  border-radius:var(--radius-m);
+  padding:12px 14px;
+  cursor:pointer;
+  animation:entry-in .3s var(--ease-out) both;
+  transition:background .2s;
+}
+.project-item:hover{background:var(--color-input-border);}
+.project-item.is-active{outline:1.5px solid var(--color-input-border-active);}
+.project-item.is-editing{outline:1.5px solid var(--color-button-bg); background:var(--color-bg-primary);}
+.project-item__dot{width:10px; height:10px; border-radius:50%; flex-shrink:0;}
+.project-item__name{flex:1; font-size:14px; font-weight:500;}
+.project-item__edit,
+.project-item__delete{
+  background:none; border:none; cursor:pointer; color:var(--color-icon-default);
+  width:30px; height:30px; display:flex; align-items:center; justify-content:center;
+  border-radius:9px; transition:background .2s, color .2s;
+}
+.project-item__edit:hover{background:var(--color-input-border); color:var(--color-txt-primary);}
+.project-item__delete:hover{background:rgba(217,79,79,.1); color:var(--color-danger);}
+
+/* ==========================================================================
+   COMPONENT: TimeRow — Start/End Time fields (native <input type="time">,
+   which brings up the system iOS wheel picker, same as <input type="date">)
+   ========================================================================== */
+.time-row{display:flex; gap:12px; margin-bottom:0;}
+.time-col{flex:1;}
+.time-col .field{margin-bottom:0;}
+
+/* ==========================================================================
+   Misc utility
+   ========================================================================== */
+[hidden]{display:none !important;}
+
+@media (max-width:460px){
+  .stage{padding:0;}
+  .phone{width:100vw; height:100vh; border-radius:0; padding:0; box-shadow:none;}
+  .phone__screen{border-radius:0;}
+  .phone__notch{display:none;}
+  .stage__hint{display:none;}
+}

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Timelyn — Time Tracker Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script>
+  // Applied before first paint so a saved dark theme doesn't flash light on reload.
+  try {
+    if (localStorage.getItem("timelyn-theme") === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  } catch (e) { /* ignore (private mode / storage blocked) */ }
+
+  // Running inside the Expo Go WebView wrapper — either signaled by the
+  // ?shell=native query param App.js loads us with (reliable, checked
+  // first), or as a fallback by window.ReactNativeWebView (the global
+  // react-native-webview injects, whose injection timing isn't guaranteed
+  // to run before this script on every platform/version). Either way: drop
+  // the desktop phone-mockup chrome and the page's own fake status bar,
+  // since the real device already provides both.
+  if (
+    new URLSearchParams(location.search).get("shell") === "native" ||
+    window.ReactNativeWebView
+  ) {
+    document.documentElement.classList.add("is-native-shell");
+  }
+</script>
+</head>
+<body>
+
+<!-- ============================================================
+     DEVICE FRAME — desktop chrome wrapper, not part of the app
+============================================================= -->
+<div class="stage">
+  <div class="phone" data-component="PhoneFrame">
+    <div class="phone__screen" id="phone-screen">
+
+      <!-- ============================================================
+           COMPONENT: SplashScreen
+           Orange loading screen shown on cold start
+      ============================================================= -->
+      <section class="screen splash-screen" id="splash-screen" data-component="SplashScreen">
+        <div class="status-bar status-bar--on-brand" data-component="StatusBar">
+          <span class="status-bar__time">9:41</span>
+          <div class="status-bar__icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="0.5" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="0.5" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.5" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="0.5" fill="currentColor"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.5C8.6 10.5 9.1 10 9.1 9.4C9.1 8.8 8.6 8.3 8 8.3C7.4 8.3 6.9 8.8 6.9 9.4C6.9 10 7.4 10.5 8 10.5Z" fill="currentColor"/><path d="M5.3 7.3C6 6.6 6.9 6.2 8 6.2C9.1 6.2 10 6.6 10.7 7.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2.8 4.8C4.2 3.4 6 2.6 8 2.6C10 2.6 11.8 3.4 13.2 4.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="18" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="4" width="1.5" height="4" rx="0.75" fill="currentColor"/></svg>
+          </div>
+        </div>
+
+        <div class="splash-loader" data-component="SplashLoader">
+          <div class="splash-loader__ring" id="splash-ring"></div>
+          <div class="splash-loader__word">Timelyn</div>
+        </div>
+
+        <div class="home-indicator"></div>
+      </section>
+
+      <!-- ============================================================
+           COMPONENT: AppRoot — main application shell
+      ============================================================= -->
+      <div class="app-root" id="app-root" hidden>
+
+        <header class="status-bar" data-component="StatusBar">
+          <span class="status-bar__time" id="clock-time">9:41</span>
+          <div class="status-bar__icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="0.5" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="0.5" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="0.5" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="0.5" fill="currentColor"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.5C8.6 10.5 9.1 10 9.1 9.4C9.1 8.8 8.6 8.3 8 8.3C7.4 8.3 6.9 8.8 6.9 9.4C6.9 10 7.4 10.5 8 10.5Z" fill="currentColor"/><path d="M5.3 7.3C6 6.6 6.9 6.2 8 6.2C9.1 6.2 10 6.6 10.7 7.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2.8 4.8C4.2 3.4 6 2.6 8 2.6C10 2.6 11.8 3.4 13.2 4.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="currentColor"/><rect x="2" y="2" width="18" height="8" rx="1.5" fill="currentColor"/><rect x="23" y="4" width="1.5" height="4" rx="0.75" fill="currentColor"/></svg>
+          </div>
+        </header>
+
+        <!-- ========================================================
+             COMPONENT: AppTopbar
+        ========================================================= -->
+        <div class="app-topbar">
+          <h1 class="app-logo">Timelyn</h1>
+        </div>
+
+        <div class="screens" id="screens">
+
+          <!-- ========================================================
+               COMPONENT: TimerScreen
+          ========================================================= -->
+          <main class="timer-screen" id="timer-screen" data-component="TimerScreen">
+            <!-- COMPONENT: TimerDial -->
+            <div class="timer-dial" id="timer-dial" data-component="TimerDial">
+              <div class="timer-dial__ticks" id="dial-ticks"></div>
+              <div class="timer-dial__center">
+                <span class="timer-dial__label" id="timer-label">Ready</span>
+                <span class="timer-dial__time" id="timer-time">00:00:00</span>
+              </div>
+            </div>
+
+            <!-- COMPONENT: DescriptionInput -->
+            <div class="field" data-component="DescriptionInput">
+              <input type="text" id="task-input" placeholder="What are you working on?" maxlength="80" />
+            </div>
+
+            <!-- COMPONENT: ProjectSelect -->
+            <button type="button" class="field field--select" id="project-select" data-component="ProjectSelect">
+              <span class="field__stack">
+                <span class="field__label">Project</span>
+                <span class="field__value">
+                  <span class="project-dot" id="project-select-dot" hidden></span>
+                  <span id="project-select-text">No project selected</span>
+                </span>
+              </span>
+              <svg class="chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+
+            <!-- COMPONENT: TimerActions -->
+            <div class="timer-actions" id="timer-actions" data-component="TimerActions">
+              <button type="button" class="btn btn--primary btn--block" id="start-btn">Start</button>
+            </div>
+          </main>
+
+          <!-- ========================================================
+               COMPONENT: DashboardScreen
+          ========================================================= -->
+          <main class="dashboard-screen" id="dashboard-screen" data-component="DashboardScreen">
+
+            <!-- COMPONENT: ActivityChart -->
+            <div class="activity-card" data-component="ActivityChart">
+              <div class="activity-card__header">
+                <div class="activity-card__stat">
+                  <span class="activity-card__stat-label" id="activity-period-label">This week</span>
+                  <span class="activity-card__stat-value" id="activity-total-value">00:00:00</span>
+                </div>
+
+                <!-- COMPONENT: PeriodSwitch -->
+                <div class="period-switch" id="period-switch" role="tablist">
+                  <span class="period-switch__thumb" id="period-switch-thumb" aria-hidden="true"></span>
+                  <button type="button" class="period-switch__btn is-active" data-period="week" role="tab" aria-selected="true">W</button>
+                  <button type="button" class="period-switch__btn" data-period="month" role="tab" aria-selected="false">M</button>
+                  <button type="button" class="period-switch__btn" data-period="year" role="tab" aria-selected="false">Y</button>
+                </div>
+              </div>
+
+              <div class="bar-chart" id="bar-chart">
+                <div class="bar-chart__yaxis" id="bar-chart-yaxis"></div>
+                <div class="bar-chart__scroll" id="bar-chart-scroll">
+                  <div class="bar-chart__plot" id="bar-chart-plot">
+                    <div class="bar-chart__gridlines" id="bar-chart-gridlines"></div>
+                  </div>
+                  <div class="bar-chart__axis" id="bar-chart-axis"></div>
+                </div>
+              </div>
+
+              <div class="bar-chart__legend" id="bar-chart-legend"></div>
+              <p class="entries-empty" id="bar-chart-empty" hidden>No time tracked in this period</p>
+
+              <!-- COMPONENT: ChartTooltip -->
+              <div class="chart-tooltip" id="chart-tooltip" hidden>
+                <span class="chart-tooltip__dot" id="chart-tooltip-dot"></span>
+                <span class="chart-tooltip__name" id="chart-tooltip-name"></span>
+                <span class="chart-tooltip__value" id="chart-tooltip-value"></span>
+              </div>
+            </div>
+
+            <!-- ======================================================
+                 COMPONENT: TimeEntriesSection
+            ======================================================= -->
+            <section class="entries-section" data-component="TimeEntriesSection">
+              <div class="entries-header">
+                <h2>Time Entries</h2>
+                <button type="button" class="link-btn" id="add-time-btn">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1V11M1 6H11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  Add time
+                </button>
+              </div>
+
+              <div class="entries-summary-row entries-summary-row--muted" id="week-total-row" hidden>
+                <span>Total this week</span>
+                <span id="week-total-value">00:00:00</span>
+              </div>
+
+              <div class="entries-list" id="entries-list"></div>
+
+              <p class="entries-empty" id="entries-empty">No entries yet. Start tracking!</p>
+            </section>
+          </main>
+
+          <!-- ========================================================
+               COMPONENT: SettingsScreen
+          ========================================================= -->
+          <main class="settings-screen" id="settings-screen" data-component="SettingsScreen">
+            <div class="settings-section">
+              <h2 class="settings-section__title">Account</h2>
+              <button type="button" class="settings-row settings-row--link" id="open-paywall-btn">
+                <div class="settings-row__icon settings-row__icon--pro">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 5.5L4.8 7.2 8 2.5l3.2 4.7L14 5.5l-1.1 6.8a1 1 0 01-1 .84H4.1a1 1 0 01-1-.84L2 5.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="settings-row__text">
+                  <span class="settings-row__label">Timelyn Pro</span>
+                  <span class="settings-row__hint">Unlock unlimited projects & full analytics</span>
+                </div>
+                <svg class="chevron chevron--right" width="8" height="13" viewBox="0 0 9 16" fill="none"><path d="M1.5 1.5L7.5 8L1.5 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <div class="settings-section">
+              <h2 class="settings-section__title">Appearance</h2>
+              <div class="settings-row">
+                <div class="settings-row__icon">
+                  <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M8 1.5V3M8 13v1.5M14.5 8H13M3 8H1.5M12.4 3.6l-.95.95M4.55 11.45l-.95.95M12.4 12.4l-.95-.95M4.55 4.55l-.95-.95" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.3"/></svg>
+                </div>
+                <div class="settings-row__text">
+                  <span class="settings-row__label">Dark Mode</span>
+                  <span class="settings-row__hint">Switch between light and dark theme</span>
+                </div>
+                <button type="button" class="switch" id="theme-toggle" role="switch" aria-checked="false" aria-label="Dark mode">
+                  <span class="switch__knob"></span>
+                </button>
+              </div>
+            </div>
+          </main>
+
+        </div>
+
+        <!-- ========================================================
+             COMPONENT: TabBar — bottom Timer/Dashboard/Settings switcher,
+             Apple-style liquid glass (see glass.css)
+        ========================================================= -->
+        <nav class="tab-bar glass" id="tab-bar" data-component="TabBar" role="tablist">
+          <span class="tab-bar__indicator glass-indicator" id="tab-bar-indicator" aria-hidden="true"></span>
+          <button type="button" class="tab-bar__btn is-active" id="switch-timer" data-screen="timer" role="tab" aria-selected="true">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 6V9L10 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>Timer</span>
+          </button>
+          <button type="button" class="tab-bar__btn" id="switch-dashboard" data-screen="dashboard" role="tab" aria-selected="false">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="9" width="3" height="5.5" rx="1" fill="currentColor"/><rect x="6.5" y="5" width="3" height="9.5" rx="1" fill="currentColor"/><rect x="11.5" y="1.5" width="3" height="13" rx="1" fill="currentColor"/></svg>
+            <span>Dashboard</span>
+          </button>
+          <button type="button" class="tab-bar__btn" id="switch-settings" data-screen="settings" role="tab" aria-selected="false">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+              <g fill="currentColor">
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(45 8 8)"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(90 8 8)"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(135 8 8)"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(180 8 8)"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(225 8 8)"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(270 8 8)"/>
+                <rect x="7" y="2.3" width="2" height="2.5" rx="0.5" transform="rotate(315 8 8)"/>
+                <path fill-rule="evenodd" d="M3.5,8 A4.5,4.5 0 1,0 12.5,8 A4.5,4.5 0 1,0 3.5,8 Z M6.1,8 A1.9,1.9 0 1,0 9.9,8 A1.9,1.9 0 1,0 6.1,8 Z"/>
+              </g>
+            </svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+
+        <div class="home-indicator"></div>
+      </div>
+
+      <!-- ============================================================
+           COMPONENT: OverlayBackdrop — shared dim/blur layer for sheets & alerts
+      ============================================================= -->
+      <div class="overlay-backdrop" id="overlay-backdrop" hidden></div>
+
+      <!-- ============================================================
+           COMPONENT: Toast — transient bottom notice (delete/Undo,
+           clock-out confirmation)
+      ============================================================= -->
+      <div class="toast glass" id="toast" role="status" aria-live="polite" hidden>
+        <span class="toast__message" id="toast-message"></span>
+        <button type="button" class="toast__action" id="toast-action" hidden></button>
+        <span class="toast__progress" id="toast-progress" aria-hidden="true"></span>
+      </div>
+
+      <!-- ============================================================
+           COMPONENT: ClockOutAlert
+      ============================================================= -->
+      <div class="alert" id="clockout-alert" data-component="ClockOutAlert" hidden>
+        <h3 class="alert__title">Clock out?</h3>
+        <p class="alert__body">Are you sure you want to end your work session?</p>
+        <div class="alert__actions">
+          <button type="button" class="alert__btn" id="clockout-cancel">Cancel</button>
+          <button type="button" class="alert__btn alert__btn--primary" id="clockout-confirm">Clock out</button>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           COMPONENT: Paywall — full-screen subscription upsell
+      ============================================================= -->
+      <div class="paywall" id="paywall" data-component="Paywall" hidden>
+        <div class="paywall__scroll">
+          <div class="paywall__hero">
+            <button type="button" class="paywall__close" id="paywall-close" aria-label="Close">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+            <div class="paywall__badge">
+              <svg width="26" height="26" viewBox="0 0 16 16" fill="none"><path d="M2 5.5L4.8 7.2 8 2.5l3.2 4.7L14 5.5l-1.1 6.8a1 1 0 01-1 .84H4.1a1 1 0 01-1-.84L2 5.5z" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>
+            </div>
+            <h1 class="paywall__title">Timelyn Pro</h1>
+            <p class="paywall__subtitle">Unlock the full picture of your time.</p>
+          </div>
+
+          <div class="paywall__body">
+            <ul class="paywall__features">
+              <li>
+                <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited projects & time entries
+              </li>
+              <li>
+                <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Full Dashboard analytics — Week / Month / Year
+              </li>
+              <li>
+                <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Custom project colors & CSV export
+              </li>
+              <li>
+                <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Priority support
+              </li>
+            </ul>
+
+            <div class="paywall__trial-row">
+              <div class="settings-row__text">
+                <span class="settings-row__label">Free Trial</span>
+                <span class="settings-row__hint">7 days free, then billed per plan</span>
+              </div>
+              <button type="button" class="switch is-on" id="trial-toggle" role="switch" aria-checked="true" aria-label="Free trial">
+                <span class="switch__knob"></span>
+              </button>
+            </div>
+
+            <div class="paywall__plans" id="paywall-plans"></div>
+
+            <button type="button" class="btn btn--primary btn--block paywall__cta" id="paywall-cta">Start Free Trial</button>
+            <p class="paywall__fineprint" id="paywall-fineprint">7 days free, then $69.99/year. Cancel anytime.</p>
+
+            <div class="paywall__links">
+              <button type="button" id="paywall-restore">Restore Purchases</button>
+              <span>·</span>
+              <button type="button" id="paywall-terms">Terms</button>
+              <span>·</span>
+              <button type="button" id="paywall-privacy">Privacy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           COMPONENT: ManageProjectsSheet
+      ============================================================= -->
+      <section class="sheet" id="projects-sheet" data-component="ManageProjectsSheet" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2>Manage Projects</h2>
+          <button type="button" class="icon-btn" id="projects-close" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="sheet__body">
+          <div class="swatch-row" id="swatch-row" data-component="ColorSwatchPicker"></div>
+          <div class="new-project-row">
+            <div class="field field--inline">
+              <input type="text" id="new-project-name" placeholder="New project name" maxlength="30" />
+            </div>
+            <button type="button" class="icon-btn icon-btn--primary" id="add-project-btn" aria-label="Add project">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <div class="project-list" id="project-list"></div>
+          <p class="entries-empty" id="projects-empty">No projects added yet</p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           COMPONENT: TimeEntrySheet — shared Add / Edit form
+      ============================================================= -->
+      <section class="sheet" id="entry-sheet" data-component="TimeEntrySheet" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 id="entry-sheet-title">Add Time Entry</h2>
+          <button type="button" class="icon-btn" id="entry-sheet-close" aria-label="Close">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="sheet__body">
+          <label class="field-label" for="entry-description">Description</label>
+          <div class="field field--inline">
+            <input type="text" id="entry-description" placeholder="What did you work on?" maxlength="80" />
+          </div>
+
+          <label class="field-label">Project</label>
+          <button type="button" class="field field--select field--inline" id="entry-project-select">
+            <span class="field__value">
+              <span class="project-dot" id="entry-project-dot" hidden></span>
+              <span id="entry-project-text">No project selected</span>
+            </span>
+            <svg class="chevron" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+
+          <label class="field-label" for="entry-date">Date</label>
+          <div class="field field--inline">
+            <input type="date" id="entry-date" />
+          </div>
+
+          <!-- 12h/24h + AM-PM here is whatever the device's own Region format
+               setting is — the native picker doesn't expose a way to force it
+               from the page (lang="" doesn't affect it, only the OS setting does). -->
+          <div class="time-row">
+            <div class="time-col">
+              <label class="field-label" for="entry-start-time">Start Time</label>
+              <div class="field field--inline">
+                <input type="time" id="entry-start-time" />
+              </div>
+            </div>
+            <div class="time-col">
+              <label class="field-label" for="entry-end-time">End Time</label>
+              <div class="field field--inline">
+                <input type="time" id="entry-end-time" />
+              </div>
+            </div>
+          </div>
+
+          <div class="entries-summary-row entries-summary-row--muted">
+            <span>Duration</span>
+            <span id="entry-duration-value">—</span>
+          </div>
+
+          <button type="button" class="btn btn--primary btn--block" id="entry-submit-btn" disabled>Add Entry</button>
+          <button type="button" class="btn btn--danger-text btn--block" id="entry-delete-btn" hidden>Delete Entry</button>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="phone__notch"></div>
+  </div>
+
+  <p class="stage__hint">Timelyn — интерактивный прототип. Кликайте по элементам.</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
