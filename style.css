@@ -1440,10 +1440,26 @@ input[type="text"].field, input[type="date"].field{padding:13px 16px;}
    ========================================================================== */
 [hidden]{display:none !important;}
 
+/* Real phone (e.g. iOS Safari): the device already shows its own clock /
+   battery row, so the fake .status-bar is dropped to give the app that
+   space. dvh instead of vh because Safari's 100vh ignores its own toolbars,
+   which would push the TabBar underneath them. */
 @media (max-width:460px){
-  .stage{padding:0;}
-  .phone{width:100vw; height:100vh; border-radius:0; padding:0; box-shadow:none;}
+  .stage{padding:0; min-height:100dvh;}
+  .phone{width:100vw; height:100vh; height:100dvh; border-radius:0; padding:0; box-shadow:none;}
   .phone__screen{border-radius:0;}
   .phone__notch{display:none;}
   .stage__hint{display:none;}
+  .status-bar{display:none;}
+  .app-topbar{padding-top:14px;}
+}
+/* Safari's visible height with its toolbars out is often ~630–660px (and
+   ~550px on an iPhone SE) — not enough for the 280px dial plus the form
+   above the floating TabBar, so shrink the dial in steps. zoom (unlike
+   transform:scale) also shrinks the layout box it reserves. */
+@media (max-width:460px) and (max-height:680px){
+  .timer-dial{zoom:.8;}
+}
+@media (max-width:460px) and (max-height:590px){
+  .timer-dial{zoom:.62;}
 }
