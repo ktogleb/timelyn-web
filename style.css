@@ -1449,6 +1449,8 @@ input[type="text"].field, input[type="date"].field{padding:13px 16px;}
      background, so it must match the app — not the desktop stage's dark
      backdrop. */
   body{background:var(--color-bg-surface);}
+  /* ...but while the orange splash is up, match its top edge instead. */
+  body:has(.splash-screen:not([hidden]):not(.is-leaving)){background:#e97848;}
   .stage{padding:0; min-height:100dvh; background:none;}
   .phone{width:100vw; height:100vh; height:100dvh; border-radius:0; padding:0; box-shadow:none;}
   .phone__screen{border-radius:0;}
