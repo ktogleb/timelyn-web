@@ -276,6 +276,7 @@ html.is-native-shell .toast{
   pointer-events:none;
 }
 .splash-loader{
+  position:relative; /* .splash-loader__word centers on this box, same as the ring does */
   flex:1;
   display:flex;
   align-items:center;
